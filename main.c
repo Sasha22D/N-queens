@@ -67,20 +67,53 @@ int	check_pos(int x, int y, int board[SIZE][SIZE])
 		return (0);
 }
 
+void	fill_board(int row, int col, int board[SIZE][SIZE])
+{
+	if (row == 9 && col == 9)
+			return ;
+	if (check_pos(row, col, board) == 0)
+	{
+		board[row][col] = 1;
+		if (row < 9)
+			fill_board(row + 1, 0, board);
+		else
+			return ;
+	}
+	else
+	{
+		if (col == 9)
+		{
+			fill_board(row - 1, 0, board);
+		}
+		if (board[row][col] == 1)
+			board[row][col] = 0;
+		fill_board(row, col + 1, board);
+	}
+}
+
 int	main()
 {
 	int	board[SIZE][SIZE] = {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //0
-		{0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, //1
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //1
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //2
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //3
-		{0, 0, 0, 0, 1, 0, 0, 0, 0, 0}, //4
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //4
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //5
-		{0, 0, 0, 1, 0, 0, 0, 0, 0, 0}, //6
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //6
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //7
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //8
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //9
 //		 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
-	printf("%d\n", check_pos(4, 3, board));
+	fill_board(0, 0, board);
+
+	for (int i = 0; i <= SIZE; i++)
+	{
+		for (int j = 0; j<= SIZE; j++)
+		{
+			printf("%d", board[i][j]);
+		}
+		printf("\n");
+	}
 }
