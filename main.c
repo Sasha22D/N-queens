@@ -26,14 +26,36 @@ int	check_col_row(int x, int y, int board[SIZE][SIZE])
 
 int	check_diagonal(int x, int y, int board[SIZE][SIZE])
 {
-	if (x < SIZE || y < SIZE || x > SIZE || y> SIZE)
-		return (-1);
-	if (board[x][y] == 1)
-		return (1);
-	check_diagonal(x + 1, y + 1, board);
-	check_diagonal(x + 1, y - 1, board);
-	check_diagonal(x - 1, y + 1, board);
-	check_diagonal(x - 1, y - 1, board);
+	int	row, col;
+
+	row = x;
+	col = y;
+	while (row >= 0 && col >= 0)
+	{
+		if (board[row--][col--] == 1)
+			return (1);
+	}
+	row = x;
+	col = y;
+	while (row <= SIZE && col >= 0)
+	{
+		if (board[row++][col--] == 1)
+			return (1);
+	}
+	row = x;
+	col = y;
+	while (row <= SIZE && col <= SIZE)
+	{
+		if (board[row++][col++] == 1)
+			return (1);
+	}
+	row = x;
+	col = y;
+	while (row >= 0 && col <= SIZE)
+	{
+		if (board[row--][col++] == 1)
+			return (1);
+	}
 	return (0);
 }
 
@@ -60,5 +82,5 @@ int	main()
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //9
 //		 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
-	printf("%d\n", check_diagonal(6, 6, board));
+	printf("%d\n", check_pos(4, 3, board));
 }
