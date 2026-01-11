@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h> //abs
 
 #define SIZE 10
 
@@ -9,13 +8,13 @@ int	check_col_row(int x, int y, int board[SIZE][SIZE])
 
 	row = 0;
 	col = 0;
-	while (col < 10)
+	while (col <= 9)
 	{
 		if (board[x][col] == 1)
 			return (1);
 		col++;
 	}
-	while (row < 10)
+	while (row <= 9)
 	{
 		if (board[row][y] == 1)
 			return (1);
@@ -37,21 +36,21 @@ int	check_diagonal(int x, int y, int board[SIZE][SIZE])
 	}
 	row = x;
 	col = y;
-	while (row <= SIZE && col >= 0)
+	while (row < SIZE && col >= 0)
 	{
 		if (board[row++][col--] == 1)
 			return (1);
 	}
 	row = x;
 	col = y;
-	while (row <= SIZE && col <= SIZE)
+	while (row < SIZE && col < SIZE)
 	{
 		if (board[row++][col++] == 1)
 			return (1);
 	}
 	row = x;
 	col = y;
-	while (row >= 0 && col <= SIZE)
+	while (row >= 0 && col < SIZE)
 	{
 		if (board[row--][col++] == 1)
 			return (1);
@@ -67,28 +66,24 @@ int	check_pos(int x, int y, int board[SIZE][SIZE])
 		return (0);
 }
 
-void	fill_board(int row, int col, int board[SIZE][SIZE])
+int	fill_board(int row,int board[SIZE][SIZE])
 {
-	if (row == 9 && col == 9)
-			return ;
-	if (check_pos(row, col, board) == 0)
+	int	col = 0;
+	if (row == SIZE)
+		return (1);
+	while (col < SIZE)
 	{
-		board[row][col] = 1;
-		if (row < 9)
-			fill_board(row + 1, 0, board);
-		else
-			return ;
-	}
-	else
-	{
-		if (col == 9)
+		if (check_pos(row, col, board) == 0)
 		{
-			fill_board(row - 1, 0, board);
-		}
-		if (board[row][col] == 1)
+			board[row][col] = 1;
+			if (fill_board(row + 1, board) == 1)
+				return (1);
 			board[row][col] = 0;
-		fill_board(row, col + 1, board);
+		}
+		col++;
 	}
+	return (0);
+	
 }
 
 int	main()
@@ -106,11 +101,11 @@ int	main()
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //9
 //		 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	};
-	fill_board(0, 0, board);
+	fill_board(0, board);
 
-	for (int i = 0; i <= SIZE; i++)
+	for (int i = 0; i < SIZE; i++)
 	{
-		for (int j = 0; j<= SIZE; j++)
+		for (int j = 0; j < SIZE; j++)
 		{
 			printf("%d", board[i][j]);
 		}
